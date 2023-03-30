@@ -43,7 +43,7 @@ const Form = () => {
     <>
       <form onSubmit={handleSubmit}>
         <Grid container alignItems="center" justify="center" direction="column">
-          <h1>What is your ideal trip, {session.user.name}?</h1>
+          {/* <h1>What is your ideal trip, {session.user.name}?</h1> */}
           <Grid item>
             <TextField
               id="firstName"
