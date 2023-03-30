@@ -12,7 +12,7 @@ export default function Hero() {
   if (session) {
     return (
       <div>
-        <Form />
+        <Form name={session.user.name} />
       </div>
     );
   } else {

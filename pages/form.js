@@ -13,11 +13,9 @@ import {
   Button,
 } from "@mui/material";
 import { Grid } from "@mui/material";
-import { useSession, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
-const Form = () => {
-  const { data: session } = useSession();
-
+const Form = ({ name }) => {
   const initialValues = {
     firstName: "",
     lastName: "",
@@ -43,7 +41,7 @@ const Form = () => {
     <>
       <form onSubmit={handleSubmit}>
         <Grid container alignItems="center" justify="center" direction="column">
-          {/* <h1>What is your ideal trip, {session.user.name}?</h1> */}
+          <h1>What is your ideal trip, {name}?</h1>
           <Grid item>
             <TextField
               id="firstName"
