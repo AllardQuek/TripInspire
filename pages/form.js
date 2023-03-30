@@ -13,8 +13,11 @@ import {
   Button,
 } from "@mui/material";
 import { Grid } from "@mui/material";
+import { useSession, signOut } from "next-auth/react";
 
-const Form = ({ session }) => {
+const Form = () => {
+  const { data: session } = useSession();
+
   const initialValues = {
     firstName: "",
     lastName: "",
