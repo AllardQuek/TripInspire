@@ -1,42 +1,55 @@
+import Button from "@mui/material/Button";
 import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
 import homeImage from "../assets/hero.png";
+import { useSession, signIn, signOut } from "next-auth/react";
+import Form from "../pages/form";
 
 export default function Hero() {
-  return (
-    <Section id="hero">
-      <div className="background">
-        {/* <img src={homeImage} alt="" /> */}
-        <Image src={homeImage} alt="Background Image" />
+  const { data: session } = useSession();
+
+  if (session) {
+    return (
+      <div>
+        <Form session={session} />
       </div>
-      <div className="content">
-        <div className="title">
-          <h1>TRAVEL TO EXPLORE</h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere
-            natus, enim ipsam magnam odit deserunt itaque? Minima earum velit
-            tenetur!
-          </p>
+    );
+  } else {
+    return (
+      <Section id="hero">
+        <div className="background">
+          <Image src={homeImage} alt="Background Image" />
         </div>
-        <div className="search">
-          <div className="container">
-            <label htmlFor="">Where you want to go</label>
-            <input type="text" placeholder="Search Your location" />
+        <div className="content">
+          <div className="title">
+            <h1>TRIPINSPIRE</h1>
+            <p>We inspire the trip of your desires.</p>
           </div>
-          <div className="container">
-            <label htmlFor="">Check-in</label>
-            <input type="date" />
+          <Button variant="contained" onClick={() => signIn()}>
+            Sign In
+          </Button>
+          <div className="search">
+            <div className="container">
+              <label htmlFor="">Where you want to go</label>
+              <input type="text" placeholder="Search Your location" />
+            </div>
+            <div className="container">
+              <label htmlFor="">Check-in</label>
+              <input type="date" />
+            </div>
+            <div className="container">
+              <label htmlFor="">Check-out</label>
+              <input type="date" />
+            </div>
+            <Button variant="contained" color="secondary">
+              Explore Now
+            </Button>
           </div>
-          <div className="container">
-            <label htmlFor="">Check-out</label>
-            <input type="date" />
-          </div>
-          <button>Explore Now</button>
         </div>
-      </div>
-    </Section>
-  );
+      </Section>
+    );
+  }
 }
 
 const Section = styled.section`
@@ -50,6 +63,9 @@ const Section = styled.section`
     img {
       width: 100%;
       filter: brightness(60%);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
     }
   }
   .content {
@@ -107,20 +123,6 @@ const Section = styled.section`
           &:focus {
             outline: none;
           }
-        }
-      }
-      button {
-        padding: 1rem;
-        cursor: pointer;
-        border-radius: 0.3rem;
-        border: none;
-        color: white;
-        background-color: #4361ee;
-        font-size: 1.1rem;
-        text-transform: uppercase;
-        transition: 0.3s ease-in-out;
-        &:hover {
-          background-color: #023e8a;
         }
       }
     }
