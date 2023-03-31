@@ -5,24 +5,24 @@ import {
   RadioGroup,
   Radio,
   FormControlLabel,
-  TextField,
-  MenuItem,
-  Select,
-  FormGroup,
-  Checkbox,
   Button,
+  Alert,
 } from "@mui/material";
 import { Grid } from "@mui/material";
-import { signOut } from "next-auth/react";
+import { supabase } from "../utils/supabase";
+import styled from "styled-components";
+import { useRouter } from "next/router";
 
-const Form = ({ name }) => {
-  const initialValues = {
-    firstName: "",
-    lastName: "",
-    gender: "male",
-    country: "Canada",
-    hobby: "",
-  };
+const Form = ({ username }) => {
+  const [formValues, setFormValues] = useState();
+  const [uuid, setUuid] = useState();
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const router = useRouter();
+
+  async function signOut() {
+    const { error } = await supabase.auth.signOut();
+  }
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormValues({
@@ -31,118 +31,80 @@ const Form = ({ name }) => {
     });
   };
 
-  const [formValues, setFormValues] = useState(initialValues);
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(formValues);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .upsert({
+          id: user.id,
+          username: username,
+          budget_level: formValues.budget_level,
+        })
+        .select();
+
+      if (error) throw error;
+      setUpdateSuccess(true);
+      setFormValues();
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   return (
-    <>
+    <StyledForm>
+      {updateSuccess && (
+        <Alert severity="success" onClose={() => setUpdateSuccess(false)}>
+          Successfully updated preferences!
+        </Alert>
+      )}
       <form onSubmit={handleSubmit}>
         <Grid container alignItems="center" justify="center" direction="column">
-          <h1>What is your ideal trip, {name}?</h1>
-          <Grid item>
-            <TextField
-              id="firstName"
-              name="firstName"
-              label="First name"
-              type="text"
-              value={formValues.firstName}
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              id="lastName"
-              name="lastName"
-              label="Last name"
-              type="text"
-              value={formValues.lastName}
-              onChange={handleInputChange}
-            />
-          </Grid>
+          <h1 className="h1-header">What is your ideal trip, {username}?</h1>
           <Grid item>
             <FormControl>
-              <FormLabel>Gender</FormLabel>
-              <RadioGroup
-                name="gender"
-                value={formValues.gender}
-                onChange={handleInputChange}
-                row
-              >
+              <FormLabel>
+                How much money are you willing to spend on a trip?
+              </FormLabel>
+              <RadioGroup name="budget_level" onChange={handleInputChange} row>
                 <FormControlLabel
-                  key="male"
-                  value="male"
+                  key="1"
+                  value="1"
                   control={<Radio size="small" />}
-                  label="Male"
+                  label="Super Budget"
                 />
                 <FormControlLabel
-                  key="female"
-                  value="female"
+                  key="2"
+                  value="2"
                   control={<Radio size="small" />}
-                  label="Female"
+                  label="Not too much"
                 />
                 <FormControlLabel
-                  key="other"
-                  value="other"
+                  key="3"
+                  value="3"
                   control={<Radio size="small" />}
-                  label="Other"
+                  label="Average"
+                />
+                <FormControlLabel
+                  key="4"
+                  value="4"
+                  control={<Radio size="small" />}
+                  label="Slightly More"
+                />
+                <FormControlLabel
+                  key="5"
+                  value="5"
+                  control={<Radio size="small" />}
+                  label="Exorbitant"
                 />
               </RadioGroup>
             </FormControl>
           </Grid>
 
-          <Grid item>
-            <FormControl>
-              <Select
-                name="country"
-                value={formValues.country}
-                onChange={handleInputChange}
-              >
-                <MenuItem key="canada" value="Canada">
-                  Canada
-                </MenuItem>
-                <MenuItem key="japan" value="Japan">
-                  Japan
-                </MenuItem>
-                <MenuItem key="germany " value="Germany">
-                  Germany
-                </MenuItem>
-                <MenuItem key="switzerland " value="Switzerland">
-                  Switzerland
-                </MenuItem>
-                <MenuItem key="australia " value="Australia">
-                  Australia
-                </MenuItem>
-                <MenuItem key="united_states " value="United States">
-                  United States
-                </MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-
-          <Grid item>
-            <FormLabel>Hobby</FormLabel>
-            <FormGroup>
-              <FormControlLabel
-                control={<Checkbox name="hobby" defaultChecked />}
-                label="Writing"
-              />
-              <FormControlLabel
-                control={<Checkbox name="hobby" />}
-                label="Dance"
-              />
-              <FormControlLabel
-                control={<Checkbox name="hobby" />}
-                label="Painting"
-              />
-              <FormControlLabel
-                control={<Checkbox name="hobby" />}
-                label="Video Game"
-              />
-            </FormGroup>
-          </Grid>
           <Grid item>
             <Button
               variant="contained"
@@ -160,7 +122,14 @@ const Form = ({ name }) => {
           </Button>
         </Grid>
       </form>
-    </>
+    </StyledForm>
   );
 };
+
+const StyledForm = styled.section`
+  .h1-header {
+    margin-bottom: 1rem;
+  }
+`;
+
 export default Form;

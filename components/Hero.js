@@ -3,16 +3,37 @@ import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
 import homeImage from "../assets/hero.png";
-import { useSession, signIn, signOut } from "next-auth/react";
 import Form from "../pages/form";
+import { supabase } from "../utils/supabase";
+import { useState, useEffect } from "react";
 
 export default function Hero() {
-  const { data: session } = useSession();
+  const [session, setSession] = useState(null);
+  const [username, setUsername] = useState(null);
+
+  useEffect(() => {
+    setSession(supabase.auth.getSession());
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+  }, []);
+
+  async function signInWithGoogle() {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+  }
 
   if (session) {
+    const user = supabase.auth.getUser();
+    user.then((value) => {
+      const google_username = value.data.user.user_metadata.name;
+      const first_name = google_username.split(" ")[0];
+      setUsername(first_name);
+    });
     return (
       <div>
-        <Form name={session.user.name} />
+        <Form username={username} />
       </div>
     );
   } else {
@@ -26,13 +47,13 @@ export default function Hero() {
             <h1>TRIPINSPIRE</h1>
             <p>We inspire the trip of your desires.</p>
           </div>
-          <Button variant="contained" onClick={() => signIn()}>
+          <Button variant="contained" onClick={() => signInWithGoogle()}>
             Sign In
           </Button>
           <div className="search">
             <div className="container">
-              <label htmlFor="">Where you want to go</label>
-              <input type="text" placeholder="Search Your location" />
+              <label htmlFor="">Where</label>
+              <input type="text" placeholder="Find Your Destination" />
             </div>
             <div className="container">
               <label htmlFor="">Check-in</label>
