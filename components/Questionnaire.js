@@ -15,14 +15,10 @@ import { supabase } from "../utils/supabase";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 
-const Form = ({ username }) => {
+const Questionnaire = ({ username }) => {
   const [formValues, setFormValues] = useState();
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const router = useRouter();
-
-  async function signOut() {
-    const { error } = await supabase.auth.signOut();
-  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -333,9 +329,6 @@ const Form = ({ username }) => {
           >
             Submit
           </Button>
-          <Button variant="contained" onClick={() => signOut()}>
-            Sign Out
-          </Button>
         </Grid>
       </form>
     </StyledForm>
@@ -352,4 +345,4 @@ const StyledForm = styled.section`
   }
 `;
 
-export default Form;
+export default Questionnaire;

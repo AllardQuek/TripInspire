@@ -3,9 +3,11 @@ import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
 import homeImage from "../assets/hero.png";
-import Form from "../pages/form";
+import Questionnaire from "./Questionnaire";
+import TripDetails from "./TripDetails";
 import { supabase } from "../utils/supabase";
 import { useState, useEffect } from "react";
+import Box from "@mui/material/Box";
 
 export default function Hero() {
   const [session, setSession] = useState(null);
@@ -24,6 +26,10 @@ export default function Hero() {
     });
   }
 
+  async function signOut() {
+    const { error } = await supabase.auth.signOut();
+  }
+
   if (session) {
     const user = supabase.auth.getUser();
     user.then((value) => {
@@ -33,7 +39,17 @@ export default function Hero() {
     });
     return (
       <div>
-        <Form username={username} />
+        <Questionnaire username={username} />
+        <TripDetails />
+        <Box textAlign="center">
+          <Button
+            className="signOut-btn"
+            variant="contained"
+            onClick={() => signOut()}
+          >
+            Sign Out
+          </Button>
+        </Box>
       </div>
     );
   } else {
@@ -50,23 +66,6 @@ export default function Hero() {
           <Button variant="contained" onClick={() => signInWithGoogle()}>
             Sign In
           </Button>
-          <div className="search">
-            <div className="container">
-              <label htmlFor="">Where</label>
-              <input type="text" placeholder="Find Your Destination" />
-            </div>
-            <div className="container">
-              <label htmlFor="">Check-in</label>
-              <input type="date" />
-            </div>
-            <div className="container">
-              <label htmlFor="">Check-out</label>
-              <input type="date" />
-            </div>
-            <Button variant="contained" color="secondary">
-              Explore Now
-            </Button>
-          </div>
         </div>
       </Section>
     );
