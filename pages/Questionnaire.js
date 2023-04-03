@@ -15,6 +15,12 @@ import { supabase } from "../utils/supabase";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 import NavBar from "../components/NavBar";
+import Image from "next/image";
+import adventureImage from "../assets/adventureImage.png";
+import foodImage from "../assets/foodImage.png"
+import natureImage from "../assets/Destination4.png";
+import cultureImage from "../assets/Destination2.png";
+import cityImage from "../assets/Destination1.png";
 
 const Questionnaire = ({ username }) => {
   const [formValues, setFormValues] = useState();
@@ -194,9 +200,9 @@ const Questionnaire = ({ username }) => {
             </FormControl>
           </Grid>
           <Grid item className="question">
-            <Typography gutterBottom>
+            <FormLabel>
               How much local food are you willing/do you want to eat?
-            </Typography>
+            </FormLabel>
             <Slider
               aria-label="local_food"
               name="local_food"
@@ -210,6 +216,12 @@ const Questionnaire = ({ username }) => {
             />
           </Grid>
           <Grid item className="question">
+          <FormLabel>
+            Tell us more about your priorities on a trip.
+          </FormLabel>
+            <div>
+              <Image style={{ width: '570px', height: '320px' }} src={foodImage}/>
+            </div>
             <Typography gutterBottom>
               How important is <strong>food</strong> for your trip?
             </Typography>
@@ -226,6 +238,7 @@ const Questionnaire = ({ username }) => {
             />
           </Grid>
           <Grid item className="question">
+            <Image style={{width: '570px', height: '320px' }} src={adventureImage}/>
             <Typography gutterBottom>
               How important is <strong>adventure</strong> for your trip?
             </Typography>
@@ -242,6 +255,7 @@ const Questionnaire = ({ username }) => {
             />
           </Grid>
           <Grid item className="question">
+            <Image src={natureImage}/>
             <Typography gutterBottom>
               How important is <strong>nature</strong> for your trip?
             </Typography>
@@ -258,6 +272,7 @@ const Questionnaire = ({ username }) => {
             />
           </Grid>
           <Grid item className="question">
+            <Image src={cultureImage}/>
             <Typography gutterBottom>
               How important is <strong>culture</strong> for your trip?
             </Typography>
@@ -274,6 +289,7 @@ const Questionnaire = ({ username }) => {
             />
           </Grid>
           <Grid item className="question">
+            <Image src={cityImage}/>
             <Typography gutterBottom>
               How important is <strong>city</strong> for your trip?
             </Typography>
