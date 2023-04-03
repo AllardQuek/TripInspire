@@ -14,6 +14,7 @@ import { Grid } from "@mui/material";
 import { supabase } from "../utils/supabase";
 import styled from "styled-components";
 import { useRouter } from "next/router";
+import NavBar from "../components/NavBar";
 
 const Questionnaire = ({ username }) => {
   const [formValues, setFormValues] = useState();
@@ -65,6 +66,8 @@ const Questionnaire = ({ username }) => {
   };
 
   return (
+    <div>
+    <NavBar />
     <StyledForm>
       {updateSuccess && (
         <Alert severity="success" onClose={() => setUpdateSuccess(false)}>
@@ -332,6 +335,7 @@ const Questionnaire = ({ username }) => {
         </Grid>
       </form>
     </StyledForm>
+    </div>
   );
 };
 
