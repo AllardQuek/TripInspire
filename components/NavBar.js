@@ -2,9 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 const navLinks = [
-  { name: "Home", 
-   path: "/" 
-  },
+  { name: "Home", path: "/" },
   {
     name: "Questionnaire",
     path: "/Questionnaire",
@@ -12,7 +10,7 @@ const navLinks = [
   {
     name: "Suggest A Trip",
     path: "/TripDetails",
-  }
+  },
 ];
 
 export default function Header() {
@@ -24,9 +22,9 @@ export default function Header() {
       <nav>
         {navLinks.map((link, index) => {
           return (
-            <ul>
+            <ul key={index}>
               <Link href={link.path}>
-                <li key={index}>{link.name}</li>
+                <li>{link.name}</li>
               </Link>
             </ul>
           );
