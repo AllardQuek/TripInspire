@@ -3,11 +3,9 @@ import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
 import homeImage from "../assets/hero.png";
-import Questionnaire from "./Questionnaire";
-import TripDetails from "./TripDetails";
+import NavBar from "./NavBar";
 import { supabase } from "../utils/supabase";
 import { useState, useEffect } from "react";
-import Box from "@mui/material/Box";
 
 export default function Hero() {
   const [session, setSession] = useState(null);
@@ -39,9 +37,16 @@ export default function Hero() {
     });
     return (
       <div>
-        <Questionnaire username={username} />
-        <TripDetails />
-        <Box textAlign="center">
+        <NavBar/ >
+        <Section id="hero">
+        <div className="background">
+          <Image src={homeImage} alt="Background Image" />
+        </div>
+        <div className="content">
+          <div className="title">
+            <h1>TRIPINSPIRE</h1>
+            <p>Welcome, {username}. We inspire the trip of your desires.</p>
+          </div>
           <Button
             className="signOut-btn"
             variant="contained"
@@ -49,7 +54,8 @@ export default function Hero() {
           >
             Sign Out
           </Button>
-        </Box>
+        </div>
+      </Section>
       </div>
     );
   } else {
