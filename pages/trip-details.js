@@ -14,8 +14,14 @@ export default function TripDetails() {
 
   useEffect(() => {
     const pastDetails = window.localStorage.getItem("apiResults");
+
     if (pastDetails) {
-      setTripDetails(JSON.parse(pastDetails));
+      console.log("Past details: ", pastDetails);
+      try {
+        setTripDetails(JSON.parse(pastDetails));
+      } catch (err) {
+        console.log("Error: ", err.message);
+      }
     }
   }, [tripDetails]); // https://reactjs.org/docs/hooks-effect.html
 
