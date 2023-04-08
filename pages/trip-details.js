@@ -1,16 +1,23 @@
-import Image from "next/image";
 import styled from "styled-components";
-import homeImage from "../assets/hero.png";
 import { Button, Grid, InputLabel, MenuItem, FormControl } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useState } from "react";
 import NavBar from "../components/NavBar";
+import { useEffect } from "react";
 
 export default function TripDetails() {
   const [destination, setDestination] = useState("");
   const [numDays, setNumDays] = useState("");
   const [numNights, setNumNights] = useState("");
+  const [tripDetails, setTripDetails] = useState("");
   const numRange = Array.from({ length: 10 }, (_, i) => i + 1);
+
+  useEffect(() => {
+    const pastDetails = window.localStorage.getItem("apiResults");
+    if (pastDetails) {
+      setTripDetails(JSON.parse(pastDetails));
+    }
+  }, [tripDetails]); // https://reactjs.org/docs/hooks-effect.html
 
   const handleDestinationChange = (event) => {
     setDestination(event.target.value);
@@ -22,6 +29,21 @@ export default function TripDetails() {
 
   const handleNightsChange = (event) => {
     setNumNights(event.target.value);
+  };
+
+  // Upon clicking on the "explore" button, make an api call to get_tripadvisor_data
+  const getTripAdvisorData = async () => {
+    console.log("Explore button clicked");
+    const response = await fetch(
+      `/api/getTripAdvisorData?query=${destination}`
+    );
+    const data = await response.json();
+    const apiResults = data.places.data;
+    setTripDetails(apiResults);
+    localStorage.setItem("apiResults", JSON.stringify(apiResults));
+
+    console.log(data);
+    console.log(tripDetails);
   };
 
   return (
@@ -78,11 +100,27 @@ export default function TripDetails() {
             </FormControl>
           </Grid>
           <Grid item xs={2}>
-            <Button variant="contained" color="secondary">
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={getTripAdvisorData}
+            >
               Explore Now
             </Button>
           </Grid>
         </Grid>
+
+        {tripDetails && (
+          <div className="recommendations">
+            <h1 className="recommendations-header">Details</h1>
+
+            <ul className="places-list" key="places-list">
+              {tripDetails.map((item, index) => (
+                <li key={index}>{item.name}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </Section>
     </div>
   );
@@ -91,5 +129,19 @@ export default function TripDetails() {
 const Section = styled.section`
   .trip-details {
     padding: 2rem 0;
+  }
+
+  .recommendations {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .recommendations-header {
+    padding: 1rem 0;
+  }
+
+  .places-list {
+    list-style: none;
   }
 `;
