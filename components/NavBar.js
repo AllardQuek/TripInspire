@@ -13,6 +13,10 @@ const navLinks = [
     name: "Suggest A Trip",
     path: "/trip-details",
   },
+  {
+    name: "Enter A Past Trip",
+    path: "/past-trip"
+  }
 ];
 
 export default function NavBar() {
