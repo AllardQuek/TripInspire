@@ -29,7 +29,7 @@ export default function Hero() {
       console.log(username);
     }
   } else {
-    console.log("No session active");
+    console.log("No active session");
   }
 
   async function signInWithGoogle() {
