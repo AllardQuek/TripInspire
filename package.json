@@ -30,8 +30,5 @@
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.10.0",
     "styled-components": "^5.3.9"
-  },
-  "devDependencies": {
-    "babel-plugin-styled-components": "^2.1.1"
   }
 }
