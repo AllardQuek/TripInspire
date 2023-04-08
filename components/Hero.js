@@ -2,6 +2,7 @@ import Button from "@mui/material/Button";
 import Image from "next/image";
 import React from "react";
 import styled from "styled-components";
+
 import homeImage from "../assets/hero.png";
 import NavBar from "./NavBar";
 import { supabase } from "../utils/supabase";
@@ -44,23 +45,22 @@ export default function Hero() {
 
   return (
     <div>
+      <Image
+        className="background"
+        alt="Background Image"
+        src={homeImage}
+        placeholder="blur"
+        quality={100}
+        fill
+        sizes="100vw"
+        style={{
+          objectFit: "cover",
+          filter: "brightness(60%)",
+          zIndex: "-1",
+        }}
+      />
+
       {session ? <NavBar /> : null}
-      <div>
-        <Image
-          className="background"
-          alt="Background Image"
-          src={homeImage}
-          placeholder="blur"
-          quality={100}
-          fill
-          sizes="100vw"
-          style={{
-            objectFit: "cover",
-            filter: "brightness(60%)",
-            zIndex: "-1",
-          }}
-        />
-      </div>
 
       <Section id="hero">
         <div className="content">
@@ -88,17 +88,8 @@ export default function Hero() {
 }
 
 const Section = styled.section`
-  position: relative;
-  margin-top: 2rem;
-  width: 100%;
-  height: 100%;
-
   .content {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    z-index: 3;
+    margin-top: 2rem;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -119,6 +110,7 @@ const Section = styled.section`
       }
     }
   }
+
   @media screen and (min-width: 280px) and (max-width: 980px) {
     height: 25rem;
     .background {
