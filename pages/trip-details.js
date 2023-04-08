@@ -15,7 +15,7 @@ export default function TripDetails() {
   useEffect(() => {
     const pastDetails = window.localStorage.getItem("apiResults");
 
-    if (pastDetails) {
+    if (typeof pastDetails !== "undefined") {
       console.log("Past details: ", pastDetails);
       try {
         setTripDetails(JSON.parse(pastDetails));
@@ -23,7 +23,7 @@ export default function TripDetails() {
         console.log("Error: ", err.message);
       }
     }
-  }, [tripDetails]); // https://reactjs.org/docs/hooks-effect.html
+  }, []);
 
   const handleDestinationChange = (event) => {
     setDestination(event.target.value);
@@ -50,6 +50,7 @@ export default function TripDetails() {
 
     console.log(data);
     console.log(tripDetails);
+    console.log("Request success!");
   };
 
   return (
