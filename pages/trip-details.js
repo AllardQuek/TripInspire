@@ -44,12 +44,15 @@ export default function TripDetails() {
       `/api/getTripAdvisorData?query=${destination}`
     );
     const data = await response.json();
-    const apiResults = data.places.data;
-    setTripDetails(apiResults);
-    localStorage.setItem("apiResults", JSON.stringify(apiResults));
+    console.log("Data: ", data);
 
-    console.log(data);
-    console.log(tripDetails);
+    const apiResults = data.places.data;
+    console.log("API results: ", apiResults);
+    setTripDetails(apiResults);
+    console.log("Trip details: ", tripDetails);
+
+    localStorage.setItem("apiResults", JSON.stringify(apiResults));
+    console.log("Local storage: ", localStorage.getItem("apiResults"));
     console.log("Request success!");
   };
 
