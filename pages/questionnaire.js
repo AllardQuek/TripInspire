@@ -370,7 +370,7 @@ const Questionnaire = ({ username }) => {
 
 const StyledForm = styled.section`
   .h1-header {
-    margin-bottom: 1rem;
+    margin: 2rem 0;
   }
 
   .question {
