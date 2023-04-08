@@ -18,6 +18,20 @@ export default function Hero() {
     });
   }, []);
 
+  if (session) {
+    const user = supabase.auth.getUser();
+    if (user) {
+      user.then((value) => {
+        const google_username = value.data.user.user_metadata.name;
+        const first_name = google_username.split(" ")[0];
+        setUsername(first_name);
+      });
+      console.log(username);
+    }
+  } else {
+    console.log("No session active");
+  }
+
   async function signInWithGoogle() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -28,54 +42,49 @@ export default function Hero() {
     const { error } = await supabase.auth.signOut();
   }
 
-  if (session) {
-    const user = supabase.auth.getUser();
-    user.then((value) => {
-      const google_username = value.data.user.user_metadata.name;
-      const first_name = google_username.split(" ")[0];
-      setUsername(first_name);
-    });
-    return (
+  return (
+    <div>
+      {session ? <NavBar /> : null}
       <div>
-        <NavBar/ >
-        <Section id="hero">
-        <div className="background">
-          <Image src={homeImage} alt="Background Image" />
-        </div>
-        <div className="content">
-          <div className="title">
-            <h1>TRIPINSPIRE</h1>
-            <p>Welcome, {username}. We inspire the trip of your desires.</p>
-          </div>
-          <Button
-            className="signOut-btn"
-            variant="contained"
-            onClick={() => signOut()}
-          >
-            Sign Out
-          </Button>
-        </div>
-      </Section>
+        <Image
+          className="background"
+          alt="Background Image"
+          src={homeImage}
+          placeholder="blur"
+          quality={100}
+          fill
+          sizes="100vw"
+          style={{
+            objectFit: "cover",
+            filter: "brightness(60%)",
+            zIndex: "-1",
+          }}
+        />
       </div>
-    );
-  } else {
-    return (
+
       <Section id="hero">
-        <div className="background">
-          <Image src={homeImage} alt="Background Image" />
-        </div>
         <div className="content">
           <div className="title">
             <h1>TRIPINSPIRE</h1>
-            <p>We inspire the trip of your desires.</p>
+            {session ? (
+              <p>Welcome, {username}. We inspire the trip of your desires.</p>
+            ) : (
+              <p>We inspire the trip of your desires.</p>
+            )}
           </div>
-          <Button variant="contained" onClick={() => signInWithGoogle()}>
-            Sign In
-          </Button>
+          {!session ? (
+            <Button variant="contained" onClick={() => signInWithGoogle()}>
+              Sign In
+            </Button>
+          ) : (
+            <Button variant="contained" onClick={() => signOut()}>
+              Sign Out
+            </Button>
+          )}
         </div>
       </Section>
-    );
-  }
+    </div>
+  );
 }
 
 const Section = styled.section`
@@ -84,16 +93,6 @@ const Section = styled.section`
   width: 100%;
   height: 100%;
 
-  .background {
-    height: 100%;
-    img {
-      width: 100%;
-      filter: brightness(60%);
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-  }
   .content {
     height: 100%;
     width: 100%;
@@ -119,39 +118,6 @@ const Section = styled.section`
         font-size: 1.2rem;
       }
     }
-    .search {
-      display: flex;
-      background-color: #ffffffce;
-      padding: 0.5rem;
-      border-radius: 0.5rem;
-      .container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        padding: 0 1.5rem;
-        label {
-          font-size: 1.1rem;
-          color: #03045e;
-        }
-        input {
-          background-color: transparent;
-          border: none;
-          text-align: center;
-          color: black;
-          &[type="date"] {
-            padding-left: 3rem;
-          }
-
-          &::placeholder {
-            color: black;
-          }
-          &:focus {
-            outline: none;
-          }
-        }
-      }
-    }
   }
   @media screen and (min-width: 280px) and (max-width: 980px) {
     height: 25rem;
@@ -170,23 +136,6 @@ const Section = styled.section`
           font-size: 0.8rem;
           padding: 1vw;
         }
-      }
-      .search {
-        flex-direction: column;
-        padding: 0.8rem;
-        gap: 0.8rem;
-        /* padding: 0; */
-        .container {
-          padding: 0 0.8rem;
-          input[type="date"] {
-            padding-left: 1rem;
-          }
-        }
-        button {
-          padding: 1rem;
-          font-size: 1rem;
-        }
-        /* display: none; */
       }
     }
   }
