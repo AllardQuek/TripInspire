@@ -21,6 +21,8 @@ import foodImage from "../assets/foodImage.png";
 import natureImage from "../assets/Destination4.png";
 import cultureImage from "../assets/Destination2.png";
 import cityImage from "../assets/Destination1.png";
+import shoppingImage from "../assets/shoppingImage.png";
+import entertainmentImage from "../assets/entertainmentImage.png";
 
 const Questionnaire = ({ username }) => {
   const [formValues, setFormValues] = useState();
@@ -319,6 +321,11 @@ const Questionnaire = ({ username }) => {
               />
             </Grid>
             <Grid item className="question">
+              <Image
+                style={{ width: "570px", height: "380px" }}
+                src={shoppingImage}
+                alt="Shopping Image"
+              />
               <Typography gutterBottom>
                 How important is <strong>shopping</strong> for your trip?
               </Typography>
@@ -335,6 +342,11 @@ const Questionnaire = ({ username }) => {
               />
             </Grid>
             <Grid item className="question">
+              <Image
+                style={{ width: "570px", height: "374px" }}
+                src={entertainmentImage}
+                alt="Entertainment Image"
+              />
               <Typography gutterBottom>
                 How important is <strong>entertainment</strong> for your trip?
               </Typography>
