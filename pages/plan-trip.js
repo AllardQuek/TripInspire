@@ -52,7 +52,6 @@ export default function TripDetails() {
     setNumNights(event.target.value);
   };
 
-  // Upon clicking on the "explore" button, make an api call to get_tripadvisor_data
   const getTripAdvisorData = async () => {
     console.log("Explore button clicked");
     const attractionsResponse = await fetch(
