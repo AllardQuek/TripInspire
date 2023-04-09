@@ -6,17 +6,21 @@ import NavItem from "./NavItem";
 const navLinks = [
   { name: "Home", path: "/" },
   {
-    name: "Questionnaire",
-    path: "/questionnaire",
+    name: "My Preferences",
+    path: "/preferences",
   },
   {
-    name: "Suggest A Trip",
-    path: "/trip-details",
+    name: "Plan My Trip",
+    path: "/plan-trip",
   },
   {
-    name: "Enter A Past Trip",
-    path: "/past-trip"
-  }
+    name: "Past Trips",
+    path: "/past-trips",
+  },
+  {
+    name: "I'm Feeling Adventurous",
+    path: "/feeling-adventurous",
+  },
 ];
 
 export default function NavBar() {
@@ -81,6 +85,7 @@ const Nav = styled.nav`
     padding: 16px;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 2rem;
     /* background-color: lightgrey; */
   }
   .nav__menu-bar {
