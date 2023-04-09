@@ -1,0 +1,292 @@
+{
+  "Singapore": [
+    {
+      "id": 1,
+      "name": "Gardens by the Bay",
+      "address": "18 Marina Gardens Drive, Singapore 018953",
+      "budget": 3,
+      "pace": 4,
+      "accessibility": 5,
+      "category": "Nature & Parks"
+    },
+    {
+      "id": 2,
+      "name": "Marina Bay Sands Skypark",
+      "address": "10 Bayfront Avenue, Singapore 018956",
+      "budget": 4,
+      "pace": 4,
+      "accessibility": 5,
+      "category": "Sights & Landmarks"
+    },
+    {
+      "id": 3,
+      "name": "Sentosa Island",
+      "address": "Sentosa Island, Singapore 098269",
+      "budget": 2,
+      "pace": 5,
+      "accessibility": 5,
+      "category": "Islands"
+    },
+    {
+      "id": 4,
+      "name": "Singapore Zoo",
+      "address": "80 Mandai Lake Road, Singapore 729826",
+      "budget": 3,
+      "pace": 3,
+      "accessibility": 4,
+      "category": "Zoos & Aquariums"
+    },
+    {
+      "id": 5,
+      "name": "Merlion Park",
+      "address": "One Fullerton, Singapore 049213",
+      "budget": 1,
+      "pace": 3,
+      "accessibility": 5,
+      "category": "Sights & Landmarks"
+    },
+    {
+      "id": 6,
+      "name": "Universal Studios Singapore",
+      "address": "8 Sentosa Gateway, Singapore 098269",
+      "budget": 4,
+      "pace": 4,
+      "accessibility": 5,
+      "category": "Theme Parks"
+    },
+    {
+      "id": 7,
+      "name": "Chinatown",
+      "address": "Trengganu St, Singapore 058467",
+      "budget": 2,
+      "pace": 3,
+      "accessibility": 5,
+      "category": "Neighborhoods"
+    },
+    {
+      "id": 8,
+      "name": "ArtScience Museum",
+      "address": "6 Bayfront Avenue, Singapore 018974",
+      "budget": 3,
+      "pace": 3,
+      "accessibility": 5,
+      "category": "Art Museums"
+    },
+    {
+      "id": 9,
+      "name": "Singapore Botanic Gardens",
+      "address": "1 Cluny Road, Singapore 259569",
+      "budget": 1,
+      "pace": 3,
+      "accessibility": 5,
+      "category": "Nature & Parks"
+    },
+    {
+      "id": 10,
+      "name": "Haw Par Villa",
+      "address": "262 Pasir Panjang Road, Singapore 118628",
+      "budget": 1,
+      "pace": 3,
+      "accessibility": 4,
+      "category": "Theme Parks"
+    },
+    {
+      "id": 11,
+      "name": "Esplanade - Theatres on the Bay",
+      "address": "1 Esplanade Dr, Singapore 038981",
+      "budget": 3,
+      "pace": 3,
+      "accessibility": 5,
+      "category": "Theaters"
+    }
+  ],
+  "Munich": [
+    {
+      "id": 1,
+      "name": "Marienplatz",
+      "address": "Marienplatz 1, 80331 Munich, Germany",
+      "budget": 2,
+      "pace": 3,
+      "accessibility": 5,
+      "category": "Landmark"
+    },
+    {
+      "id": 2,
+      "name": "Neuschwanstein Castle",
+      "address": "Neuschwansteinstraße 20, 87645 Schwangau, Germany",
+      "budget": 5,
+      "pace": 2,
+      "accessibility": 3,
+      "category": "Landmark"
+    },
+    {
+      "id": 3,
+      "name": "Hofbräuhaus München",
+      "address": "Platzl 9, 80331 Munich, Germany",
+      "budget": 3,
+      "pace": 4,
+      "accessibility": 5,
+      "category": "Food & Drink"
+    },
+    {
+      "id": 4,
+      "name": "Deutsches Museum",
+      "address": "Museumsinsel 1, 80538 Munich, Germany",
+      "budget": 4,
+      "pace": 3,
+      "accessibility": 4,
+      "category": "Museum"
+    },
+    {
+      "id": 5,
+      "name": "English Garden",
+      "address": "Englischer Garten 3, 80538 Munich, Germany",
+      "budget": 1,
+      "pace": 5,
+      "accessibility": 5,
+      "category": "Park"
+    },
+    {
+      "id": 6,
+      "name": "Viktualienmarkt",
+      "address": "Viktualienmarkt 3, 80331 Munich, Germany",
+      "budget": 3,
+      "pace": 4,
+      "accessibility": 5,
+      "category": "Market"
+    },
+    {
+      "id": 7,
+      "name": "Nymphenburg Palace",
+      "address": "Schloß Nymphenburg 1, 80638 Munich, Germany",
+      "budget": 4,
+      "pace": 2,
+      "accessibility": 3,
+      "category": "Landmark"
+    },
+    {
+      "id": 8,
+      "name": "BMW Museum",
+      "address": "Am Olympiapark 2, 80809 Munich, Germany",
+      "budget": 4,
+      "pace": 3,
+      "accessibility": 3,
+      "category": "Museum"
+    },
+    {
+      "id": 9,
+      "name": "Olympiapark",
+      "address": "Spiridon-Louis-Ring 21, 80809 Munich, Germany",
+      "budget": 2,
+      "pace": 4,
+      "accessibility": 4,
+      "category": "Park"
+    },
+    {
+      "id": 10,
+      "name": "Asamkirche",
+      "address": "Sendlinger Str. 32, 80331 Munich, Germany",
+      "budget": 1,
+      "pace": 2,
+      "accessibility": 4,
+      "category": "Church"
+    },
+    {
+      "id": 11,
+      "name": "Alte Pinakothek",
+      "address": "Barer Str. 27"
+    }
+  ],
+  "Vancouver": [
+    {
+      "id": 1,
+      "name": "Capilano Suspension Bridge Park",
+      "address": "3735 Capilano Rd, North Vancouver, BC V7R 4J1, Canada",
+      "budget": 3,
+      "pace": 4,
+      "accessibility": 3,
+      "category": "Nature & Parks"
+    },
+    {
+      "id": 2,
+      "name": "Stanley Park",
+      "address": "Stanley Park Causeway, Vancouver, BC V6G 1Z4, Canada",
+      "budget": 2,
+      "pace": 3,
+      "accessibility": 5,
+      "category": "Nature & Parks"
+    },
+    {
+      "id": 3,
+      "name": "Granville Island",
+      "address": "1669 Johnston St, Vancouver, BC V6H 3R9, Canada",
+      "budget": 3,
+      "pace": 3,
+      "accessibility": 4,
+      "category": "Sights & Landmarks"
+    },
+    {
+      "id": 4,
+      "name": "Grouse Mountain",
+      "address": "6400 Nancy Greene Way, North Vancouver, BC V7R 4K9, Canada",
+      "budget": 4,
+      "pace": 4,
+      "accessibility": 2,
+      "category": "Nature & Parks"
+    },
+    {
+      "id": 5,
+      "name": "Lynn Canyon Park",
+      "address": "3663 Park Rd, North Vancouver, BC V7J 3G3, Canada",
+      "budget": 2,
+      "pace": 3,
+      "accessibility": 3,
+      "category": "Nature & Parks"
+    },
+    {
+      "id": 6,
+      "name": "Vancouver Aquarium",
+      "address": "845 Avison Way, Vancouver, BC V6G 3E2, Canada",
+      "budget": 3,
+      "pace": 3,
+      "accessibility": 5,
+      "category": "Aquariums"
+    },
+    {
+      "id": 7,
+      "name": "Capilano Salmon Hatchery",
+      "address": "4500 Capilano Park Rd, North Vancouver, BC V7R 4L3, Canada",
+      "budget": 1,
+      "pace": 2,
+      "accessibility": 4,
+      "category": "Nature & Parks"
+    },
+    {
+      "id": 8,
+      "name": "Dr. Sun Yat-Sen Classical Chinese Garden",
+      "address": "578 Carrall St, Vancouver, BC V6B 5K2, Canada",
+      "budget": 2,
+      "pace": 2,
+      "accessibility": 5,
+      "category": "Gardens"
+    },
+    {
+      "id": 9,
+      "name": "Vancouver Lookout",
+      "address": "555 W Hastings St, Vancouver, BC V6B 4N6, Canada",
+      "budget": 3,
+      "pace": 3,
+      "accessibility": 5,
+      "category": "Observation Decks & Towers"
+    },
+    {
+      "id": 10,
+      "name": "Museum of Anthropology",
+      "address": "6393 NW Marine Dr, Vancouver, BC V6T 1Z2, Canada",
+      "budget": 2,
+      "pace": 3,
+      "accessibility": 3,
+      "category": "Museum"
+    }
+  ]
+}

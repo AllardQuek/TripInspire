@@ -1,0 +1,128 @@
+{
+  "Singapore": [
+    {
+      "id": 1,
+      "name": "Marina Bay Sands",
+      "address": "10 Bayfront Ave, Singapore 018956",
+      "budget": 5,
+      "accessibility": 5,
+      "type": "Hotel"
+    },
+    {
+      "id": 2,
+      "name": "Hotel Jen Orchardgateway Singapore",
+      "address": "277 Orchard Rd, Singapore 238858",
+      "budget": 4,
+      "accessibility": 4,
+      "type": "Hotel"
+    },
+    {
+      "id": 3,
+      "name": "CapsulePod@Aljunied",
+      "address": "3 Jalan Ayer, Singapore 389142",
+      "budget": 2,
+      "accessibility": 5,
+      "type": "Hostel"
+    },
+    {
+      "id": 4,
+      "name": "Rucksack Inn @ Lavender",
+      "address": "280 Lavender St, Singapore 338800",
+      "budget": 3,
+      "accessibility": 4,
+      "type": "Hostel"
+    },
+    {
+      "id": 5,
+      "name": "Holiday Inn Express Singapore Clarke Quay",
+      "address": "2 Magazine Rd, Singapore 059573",
+      "budget": 4,
+      "accessibility": 4,
+      "type": "Hotel"
+    }
+  ],
+  "Munich": [
+    {
+      "id": 1,
+      "name": "Sofitel Munich Bayerpost",
+      "address": "Bayerstraße 12, 80335 München, Germany",
+      "budget": 5,
+      "accessibility": 4,
+      "type": "Hotel"
+    },
+    {
+      "id": 2,
+      "name": "Aloft Munich",
+      "address": "Bayerstraße 37, 80335 München, Germany",
+      "budget": 4,
+      "accessibility": 4,
+      "type": "Hotel"
+    },
+    {
+      "id": 3,
+      "name": "Euro Youth Hotel Munich",
+      "address": "Senefelderstraße 5, 80336 München, Germany",
+      "budget": 2,
+      "accessibility": 5,
+      "type": "Hostel"
+    },
+    {
+      "id": 4,
+      "name": "The Tent",
+      "address": "Hausener Straße 101, 81379 München, Germany",
+      "budget": 2,
+      "accessibility": 3,
+      "type": "Hostel"
+    },
+    {
+      "id": 5,
+      "name": "Motel One München-Haidhausen",
+      "address": "Orleansstraße 87, 81667 München, Germany",
+      "budget": 3,
+      "accessibility": 4,
+      "type": "Motel"
+    }
+  ],
+  "Vancouver": [
+    {
+      "id": 21,
+      "name": "Fairmont Pacific Rim",
+      "address": "1038 Canada Pl, Vancouver, BC V6C 0B9, Canada",
+      "budget": 4,
+      "accessibility": 5,
+      "type": "Hotel"
+    },
+    {
+      "id": 22,
+      "name": "Shangri-La Hotel",
+      "address": "1128 W Georgia St, Vancouver, BC V6E 0A8, Canada",
+      "budget": 5,
+      "accessibility": 5,
+      "type": "Hotel"
+    },
+    {
+      "id": 23,
+      "name": "EXchange Hotel Vancouver",
+      "address": "475 Howe St, Vancouver, BC V6C 2B3, Canada",
+      "budget": 3,
+      "accessibility": 5,
+      "type": "Hotel"
+    },
+    {
+      "id": 24,
+      "name": "The Burrard",
+      "address": "1100 Burrard St, Vancouver, BC V6Z 1Y7, Canada",
+      "budget": 2,
+      "accessibility": 4,
+      "type": "Hotel"
+    },
+    {
+      "id": 25,
+      "name": "Samesun Vancouver",
+      "address": "1018 Granville St, Vancouver, BC V6Z 1L4, Canada",
+      "budget": 1,
+      "accessibility": 3,
+      "type": "Hostel"
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "Singapore": [
+    {
+      "id": 1,
+      "name": "Hawker Chan",
+      "address": "78 Smith Street, Singapore 058972",
+      "budget": 2,
+      "pace": 3,
+      "accessibility": 5
+    },
+    {
+      "id": 2,
+      "name": "Maxwell Food Centre",
+      "address": "1 Kadayanallur Street, Singapore 069184",
+      "budget": 2,
+      "pace": 3,
+      "accessibility": 4
+    },
+    {
+      "id": 3,
+      "name": "Chinatown Complex Food Centre",
+      "address": "335 Smith Street, Singapore 050335",
+      "budget": 2,
+      "pace": 3,
+      "accessibility": 4
+    },
+    {
+      "id": 4,
+      "name": "Tiong Bahru Market",
+      "address": "30 Seng Poh Road, Singapore 168898",
+      "budget": 2,
+      "pace": 3,
+      "accessibility": 4
+    },
+    {
+      "id": 5,
+      "name": "Lau Pa Sat",
+      "address": "18 Raffles Quay, Singapore 048582",
+      "budget": 3,
+      "pace": 3,
+      "accessibility": 5
+    }
+  ],
+  "Munich": [
+    {
+      "id": 1,
+      "name": "Hofbräuhaus",
+      "address": "Platzl 9, 80331 München, Germany",
+      "budget": 3,
+      "pace": 3,
+      "accessibility": 4
+    },
+    {
+      "id": 2,
+      "name": "Augustiner-Keller",
+      "address": "Arnulfstraße 52, 80335 München, Germany",
+      "budget": 3,
+      "pace": 3,
+      "accessibility": 5
+    },
+    {
+      "id": 3,
+      "name": "Viktualienmarkt",
+      "address": "Viktualienmarkt 3, 80331 München, Germany",
+      "budget": 3,
+      "pace": 4,
+      "accessibility": 4
+    },
+    {
+      "id": 4,
+      "name": "Biergarten Chinesischer Turm",
+      "address": "Englischer Garten 3, 80538 München, Germany",
+      "budget": 3,
+      "pace": 3,
+      "accessibility": 3
+    },
+    {
+      "id": 5,
+      "name": "Tambosi",
+      "address": "Residenzstraße 1, 80333 München, Germany",
+      "budget": 4,
+      "pace": 3,
+      "accessibility": 5
+    }
+  ],
+  "Vancouver": [
+    {
+      "id": "vanc-fp-06",
+      "name": "Blue Water Cafe",
+      "address": "1095 Hamilton St, Vancouver, BC V6B 5T4, Canada",
+      "budget": 4,
+      "pace": 3,
+      "accessibility": 5
+    },
+    {
+      "id": "vanc-fp-07",
+      "name": "The Fish Counter",
+      "address": "3825 Main St, Vancouver, BC V5V 3P1, Canada",
+      "budget": 2,
+      "pace": 4,
+      "accessibility": 4
+    },
+    {
+      "id": "vanc-fp-08",
+      "name": "The Acorn",
+      "address": "3995 Main St, Vancouver, BC V5V 3P3, Canada",
+      "budget": 3,
+      "pace": 2,
+      "accessibility": 3
+    },
+    {
+      "id": "vanc-fp-09",
+      "name": "Cactus Club Cafe",
+      "address": "1790 Beach Ave, Vancouver, BC V6G 1Y9, Canada",
+      "budget": 4,
+      "pace": 4,
+      "accessibility": 5
+    },
+    {
+      "id": "vanc-fp-10",
+      "name": "The Pie Hole",
+      "address": "3497 Fraser St, Vancouver, BC V5V 4C3, Canada",
+      "budget": 2,
+      "pace": 1,
+      "accessibility": 4
+    }
+  ]
+}
