@@ -194,7 +194,11 @@
     {
       "id": 11,
       "name": "Alte Pinakothek",
-      "address": "Barer Str. 27"
+      "address": "Barer Str. 27",
+      "budget": 3,
+      "pace": 3,
+      "accessibility": 4,
+      "category": "Museum"
     }
   ],
   "Vancouver": [
