@@ -20,6 +20,13 @@ export default function TripDetails() {
   const [tripDetails, setTripDetails] = useState("");
   const numRange = Array.from({ length: 10 }, (_, i) => i + 1);
   const theme = useTheme(getTheme());
+  const budgetMapping = {
+    1: "Free",
+    2: "Cheap",
+    3: "Moderate",
+    4: "Expensive",
+    5: "Exorbitant",
+  };
 
   useEffect(() => {
     const pastDetails = window.localStorage.getItem("recommendations");
@@ -57,7 +64,11 @@ export default function TripDetails() {
       renderCell: (item) => item.address,
       resize: true,
     },
-    { label: "Budget", renderCell: (item) => item.budget, resize: true },
+    {
+      label: "Budget",
+      renderCell: (item) => budgetMapping[Number(item.budget)],
+      resize: true,
+    },
     {
       label: "Category",
       renderCell: (item) => item.category,

@@ -169,33 +169,34 @@ export default function FeelingAdventurous() {
   return (
     <div>
       <NavBar />
-      <Grid
-        className="user-input"
-        container
-        spacing={2}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Grid item xs={2}>
-          <TextField
-            id="outlined-basic"
-            label="Destination"
-            variant="outlined"
-            onChange={handleDestinationChange}
-          />
-        </Grid>
-        <Grid item xs={2}>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={getTripAdvisorData}
-          >
-            Explore Now
-          </Button>
-        </Grid>
-      </Grid>
       <Section>
+        <Grid
+          container
+          spacing={2}
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Grid item className="destination-input">
+            <TextField
+              className="glow-effect"
+              id="outlined-basic"
+              label="Destination"
+              variant="outlined"
+              onChange={handleDestinationChange}
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={4}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={getTripAdvisorData}
+            >
+              Explore Now
+            </Button>
+          </Grid>
+        </Grid>
         {tripDetails && (
           <div className="recommendations">
             <h1 className="recommendations-header">Explore More</h1>
@@ -229,5 +230,9 @@ const Section = styled.section`
   .recommendations-header {
     margin-top: 3rem;
     padding-bottom: 1rem;
+  }
+
+  .destination-input {
+    width: 40%;
   }
 `;

@@ -92,9 +92,7 @@ const Questionnaire = ({ username }) => {
             <h1 className="h1-header">What is your ideal trip, {username}?</h1>
             <Grid item className="question">
               <FormControl>
-                <FormLabel>
-                  How much money are you willing to spend on a trip?
-                </FormLabel>
+                <FormLabel>💰 What is your budget?</FormLabel>
                 <RadioGroup
                   name="budget_level"
                   onChange={handleInputChange}
@@ -105,25 +103,25 @@ const Questionnaire = ({ username }) => {
                     key="1"
                     value="1"
                     control={<Radio size="small" />}
-                    label="Super Budget"
+                    label="Free"
                   />
                   <FormControlLabel
                     key="2"
                     value="2"
                     control={<Radio size="small" />}
-                    label="Not too much"
+                    label="Economy"
                   />
                   <FormControlLabel
                     key="3"
                     value="3"
                     control={<Radio size="small" />}
-                    label="Average"
+                    label="Moderate"
                   />
                   <FormControlLabel
                     key="4"
                     value="4"
                     control={<Radio size="small" />}
-                    label="Slightly More"
+                    label="Expensive"
                   />
                   <FormControlLabel
                     key="5"
@@ -136,7 +134,7 @@ const Questionnaire = ({ username }) => {
             </Grid>
             <Grid item className="question">
               <FormControl>
-                <FormLabel>What is your preferred pace of trip?</FormLabel>
+                <FormLabel>💨 What is your preferred pace of trip?</FormLabel>
                 <RadioGroup
                   name="trip_pace"
                   onChange={handleInputChange}
@@ -166,7 +164,9 @@ const Questionnaire = ({ username }) => {
             </Grid>
             <Grid item className="question">
               <FormControl>
-                <FormLabel>What is your preferred mode of transport?</FormLabel>
+                <FormLabel>
+                  🛣 What is your preferred mode of transport?
+                </FormLabel>
                 <RadioGroup
                   name="transport_mode"
                   onChange={handleInputChange}
@@ -208,7 +208,7 @@ const Questionnaire = ({ username }) => {
             </Grid>
             <Grid item className="question">
               <FormLabel>
-                How much local food are you willing/do you want to eat?
+                🍽 How much local food are you willing/do you want to eat?
               </FormLabel>
               <Slider
                 aria-label="local_food"
