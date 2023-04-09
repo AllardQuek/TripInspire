@@ -5,21 +5,108 @@ import NavBar from "../components/NavBar";
 import { useEffect } from "react";
 import { CompactTable } from "@table-library/react-table-library/compact";
 import { useTheme } from "@table-library/react-table-library/theme";
-import { getTheme } from "@table-library/react-table-library/baseline";
 
 export default function FeelingAdventurous() {
   const [destination, setDestination] = useState("");
   const [tripDetails, setTripDetails] = useState("");
-  const theme = useTheme(getTheme());
+  const theme = useTheme({
+    HeaderRow: `
+        .th {
+          border-bottom: 1px solid #a0a8ae;
+        }
+      `,
+    BaseCell: `
+        margin: 9px;
+        padding: 11px;
+      `,
+    Cell: `
+        &:not(:last-of-type) {
+          border-right: 1px solid #a0a8ae;
+        }
+      `,
+  });
+
+  const resize = { resizerHighlight: "#dde2eb", resizerWidth: 25 };
 
   const COLUMNS = [
-    { label: "Name", renderCell: (item) => item.name, resize: true },
+    { label: "Name", renderCell: (item) => item.name, resize: { resize } },
     {
       label: "Address",
       renderCell: (item) => item.address_obj.address_string,
-      resize: true,
+      resize: { resize },
+    },
+    {
+      label: "Category",
+      renderCell: (item) => item.category.name,
+      resize: { resize },
+    },
+    {
+      label: "Rating",
+      renderCell: (item) => item.rating,
+      resize: { resize },
+    },
+    {
+      label: "Ranking",
+      renderCell: (item) => item.ranking_data.ranking_string,
+      resize: { resize },
     },
   ];
+
+  const escapeCsvCell = (cell) => {
+    if (cell == null) {
+      return "";
+    }
+    const sc = cell.toString().trim();
+    if (sc === "" || sc === '""') {
+      return sc;
+    }
+    if (
+      sc.includes('"') ||
+      sc.includes(",") ||
+      sc.includes("\n") ||
+      sc.includes("\r")
+    ) {
+      return '"' + sc.replace(/"/g, '""') + '"';
+    }
+    return sc;
+  };
+
+  const makeCsvData = (columns, data) => {
+    return data.reduce((csvString, rowItem) => {
+      return (
+        csvString +
+        columns
+          .map(({ accessor }) => escapeCsvCell(accessor(rowItem)))
+          .join(",") +
+        "\r\n"
+      );
+    }, columns.map(({ name }) => escapeCsvCell(name)).join(",") + "\r\n");
+  };
+
+  const downloadAsCsv = (columns, data, filename) => {
+    const csvData = makeCsvData(columns, data);
+    const csvFile = new Blob([csvData], { type: "text/csv" });
+    const downloadLink = document.createElement("a");
+
+    downloadLink.display = "none";
+    downloadLink.download = filename;
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  };
+
+  const handleDownloadCsv = () => {
+    const columns = [
+      { accessor: (item) => item.name, name: "Name" },
+      { accessor: (item) => item.address, name: "Address" },
+      { accessor: (item) => item.category, name: "Category" },
+      { accessor: (item) => item.rating, name: "Rating" },
+      { accessor: (item) => item.ranking_data.ranking_string, name: "Ranking" },
+    ];
+
+    downloadAsCsv(columns, tripDetails, "table");
+  };
 
   const handleDestinationChange = (event) => {
     setDestination(event.target.value);
@@ -117,6 +204,14 @@ export default function FeelingAdventurous() {
               columns={COLUMNS}
               data={{ nodes: tripDetails }}
             />
+            <Button
+              variant="contained"
+              size="small"
+              color="success"
+              onClick={handleDownloadCsv}
+            >
+              Download CSV
+            </Button>
           </div>
         )}
       </Section>
