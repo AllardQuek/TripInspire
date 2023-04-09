@@ -1,3 +1,5 @@
+// useSWR allows the use of SWR inside function components
+import useSWR from "swr";
 import styled from "styled-components";
 import { Button, Grid, InputLabel, MenuItem, FormControl } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
@@ -8,6 +10,9 @@ import { CompactTable } from "@table-library/react-table-library/compact";
 import { useTheme } from "@table-library/react-table-library/theme";
 import { getTheme } from "@table-library/react-table-library/baseline";
 
+// Write a fetcher function to wrap the native fetch function and return the result of a call to url in json format
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
 export default function TripDetails() {
   const [destination, setDestination] = useState("");
   const [numDays, setNumDays] = useState("");
@@ -16,17 +21,8 @@ export default function TripDetails() {
   const numRange = Array.from({ length: 10 }, (_, i) => i + 1);
   const theme = useTheme(getTheme());
 
-  const COLUMNS = [
-    { label: "Name", renderCell: (item) => item.name, resize: true },
-    {
-      label: "Address",
-      renderCell: (item) => item.address_obj.address_string,
-      resize: true,
-    },
-  ];
-
   useEffect(() => {
-    const pastDetails = window.localStorage.getItem("finalResults");
+    const pastDetails = window.localStorage.getItem("recommendations");
 
     if (typeof pastDetails !== "undefined") {
       console.log("Past details: ", pastDetails);
@@ -38,7 +34,36 @@ export default function TripDetails() {
     }
   }, []);
 
-  const city_attractions = { nodes: tripDetails };
+  // Fetch attractions data
+  const { data, error } = useSWR("/api/staticdata", fetcher);
+  let attractions = {};
+
+  // Convert data to  JSON format if it is not already
+  try {
+    attractions = JSON.parse(data);
+  } catch (err) {
+    console.log("Error: ", err.message);
+  }
+
+  // Handle the error state
+  if (error) return <div>Failed to load</div>;
+  // Handle the loading state
+  if (!data) return <div>Loading...</div>;
+
+  const COLUMNS = [
+    { label: "Name", renderCell: (item) => item.name, resize: true },
+    {
+      label: "Address",
+      renderCell: (item) => item.address,
+      resize: true,
+    },
+    { label: "Budget", renderCell: (item) => item.budget, resize: true },
+    {
+      label: "Category",
+      renderCell: (item) => item.category,
+      resize: true,
+    },
+  ];
 
   const handleDestinationChange = (event) => {
     setDestination(event.target.value);
@@ -52,44 +77,14 @@ export default function TripDetails() {
     setNumNights(event.target.value);
   };
 
-  const getTripAdvisorData = async () => {
-    console.log("Explore button clicked");
-    const attractionsResponse = await fetch(
-      `/api/getTripAdvisorData?query=${destination}`
-    );
-    const data = await attractionsResponse.json();
-    const apiResults = data.places.data;
-    console.log("API results: ", apiResults);
+  const getRecommendations = () => {
+    // Filter attraction results to those most suitable for user
+    console.log(attractions);
+    const cityAttractions = attractions[destination];
+    setTripDetails(cityAttractions);
 
-    const finalResults = [];
-    // Query the API for each location details
-    for (let i = 0; i < apiResults.length; i++) {
-      const locationId = apiResults[i].location_id;
-      const locationDetailsResponse = await fetch(
-        `/api/getLocationDetails?locationId=${locationId}`
-      );
-      const locationDetails = await locationDetailsResponse.json();
-      const rating = Number(locationDetails.places.rating);
-      const category = locationDetails.places.category.name;
-
-      // console.log("Location details: ", locationDetails);
-      console.log(rating, typeof rating);
-      console.log(category);
-
-      // Filter for those above a threshold rating
-      if (rating >= 4.0 && category === "attraction") {
-        console.log(
-          "Location above threshold rating, adding to final results!"
-        );
-        finalResults.push(locationDetails.places);
-      }
-    }
-
-    setTripDetails(finalResults);
-    console.log("Trip details: ", tripDetails);
-
-    localStorage.setItem("finalResults", JSON.stringify(finalResults));
-    console.log("Local storage: ", localStorage.getItem("finalResults"));
+    localStorage.setItem("recommendations", JSON.stringify(cityAttractions));
+    console.log("Local storage: ", localStorage.getItem("recommendations"));
     console.log("Request success!");
   };
 
@@ -150,7 +145,7 @@ export default function TripDetails() {
             <Button
               variant="contained"
               color="secondary"
-              onClick={getTripAdvisorData}
+              onClick={getRecommendations}
             >
               Explore Now
             </Button>
@@ -163,7 +158,7 @@ export default function TripDetails() {
             <CompactTable
               theme={theme}
               columns={COLUMNS}
-              data={city_attractions}
+              data={{ nodes: tripDetails }}
             />
           </div>
         )}
