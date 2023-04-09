@@ -6,11 +6,8 @@ const options = {
 };
 
 export default async function getLocationDetails(req, res) {
-  const {
-    query: { query },
-  } = req;
-
-  const url = `https://api.content.tripadvisor.com/api/v1/location/search?key=${process.env.TRIPADVISOR_KEY}&searchQuery=${query}&language=en`;
+  const locationId = req.query.locationId;
+  const url = `https://api.content.tripadvisor.com/api/v1/location/${locationId}/details?key=${process.env.TRIPADVISOR_KEY}&language=en&currency=SGD`;
   console.log(url);
 
   fetch(url, options)

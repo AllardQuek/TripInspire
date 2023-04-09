@@ -4,6 +4,9 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useState } from "react";
 import NavBar from "../components/NavBar";
 import { useEffect } from "react";
+import { CompactTable } from "@table-library/react-table-library/compact";
+import { useTheme } from "@table-library/react-table-library/theme";
+import { getTheme } from "@table-library/react-table-library/baseline";
 
 export default function TripDetails() {
   const [destination, setDestination] = useState("");
@@ -11,9 +14,19 @@ export default function TripDetails() {
   const [numNights, setNumNights] = useState("");
   const [tripDetails, setTripDetails] = useState("");
   const numRange = Array.from({ length: 10 }, (_, i) => i + 1);
+  const theme = useTheme(getTheme());
+
+  const COLUMNS = [
+    { label: "Name", renderCell: (item) => item.name, resize: true },
+    {
+      label: "Address",
+      renderCell: (item) => item.address_obj.address_string,
+      resize: true,
+    },
+  ];
 
   useEffect(() => {
-    const pastDetails = window.localStorage.getItem("apiResults");
+    const pastDetails = window.localStorage.getItem("finalResults");
 
     if (typeof pastDetails !== "undefined") {
       console.log("Past details: ", pastDetails);
@@ -24,6 +37,8 @@ export default function TripDetails() {
       }
     }
   }, []);
+
+  const city_attractions = { nodes: tripDetails };
 
   const handleDestinationChange = (event) => {
     setDestination(event.target.value);
@@ -40,19 +55,42 @@ export default function TripDetails() {
   // Upon clicking on the "explore" button, make an api call to get_tripadvisor_data
   const getTripAdvisorData = async () => {
     console.log("Explore button clicked");
-    const response = await fetch(
+    const attractionsResponse = await fetch(
       `/api/getTripAdvisorData?query=${destination}`
     );
-    const data = await response.json();
-    console.log("Data: ", data);
-
+    const data = await attractionsResponse.json();
     const apiResults = data.places.data;
     console.log("API results: ", apiResults);
-    setTripDetails(apiResults);
+
+    const finalResults = [];
+    // Query the API for each location details
+    for (let i = 0; i < apiResults.length; i++) {
+      const locationId = apiResults[i].location_id;
+      const locationDetailsResponse = await fetch(
+        `/api/getLocationDetails?locationId=${locationId}`
+      );
+      const locationDetails = await locationDetailsResponse.json();
+      const rating = Number(locationDetails.places.rating);
+      const category = locationDetails.places.category.name;
+
+      // console.log("Location details: ", locationDetails);
+      console.log(rating, typeof rating);
+      console.log(category);
+
+      // Filter for those above a threshold rating
+      if (rating >= 4.0 && category === "attraction") {
+        console.log(
+          "Location above threshold rating, adding to final results!"
+        );
+        finalResults.push(locationDetails.places);
+      }
+    }
+
+    setTripDetails(finalResults);
     console.log("Trip details: ", tripDetails);
 
-    localStorage.setItem("apiResults", JSON.stringify(apiResults));
-    console.log("Local storage: ", localStorage.getItem("apiResults"));
+    localStorage.setItem("finalResults", JSON.stringify(finalResults));
+    console.log("Local storage: ", localStorage.getItem("finalResults"));
     console.log("Request success!");
   };
 
@@ -122,13 +160,12 @@ export default function TripDetails() {
 
         {tripDetails && (
           <div className="recommendations">
-            <h1 className="recommendations-header">Details</h1>
-
-            <ul className="places-list" key="places-list">
-              {tripDetails.map((item, index) => (
-                <li key={index}>{item.name}</li>
-              ))}
-            </ul>
+            <h1 className="recommendations-header">Your Itinerary</h1>
+            <CompactTable
+              theme={theme}
+              columns={COLUMNS}
+              data={city_attractions}
+            />
           </div>
         )}
       </Section>
