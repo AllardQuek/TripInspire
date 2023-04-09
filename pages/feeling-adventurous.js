@@ -5,26 +5,12 @@ import NavBar from "../components/NavBar";
 import { useEffect } from "react";
 import { CompactTable } from "@table-library/react-table-library/compact";
 import { useTheme } from "@table-library/react-table-library/theme";
+import { getTheme } from "@table-library/react-table-library/baseline";
 
 export default function FeelingAdventurous() {
   const [destination, setDestination] = useState("");
   const [tripDetails, setTripDetails] = useState("");
-  const theme = useTheme({
-    HeaderRow: `
-        .th {
-          border-bottom: 1px solid #a0a8ae;
-        }
-      `,
-    BaseCell: `
-        margin: 9px;
-        padding: 11px;
-      `,
-    Cell: `
-        &:not(:last-of-type) {
-          border-right: 1px solid #a0a8ae;
-        }
-      `,
-  });
+  const theme = useTheme(getTheme());
 
   const resize = { resizerHighlight: "#dde2eb", resizerWidth: 25 };
 
@@ -206,6 +192,7 @@ export default function FeelingAdventurous() {
               data={{ nodes: tripDetails }}
             />
             <Button
+            className="csv-button"
               variant="contained"
               size="small"
               color="success"
@@ -234,5 +221,9 @@ const Section = styled.section`
 
   .destination-input {
     width: 40%;
+  }
+  
+  .csv-button {
+    margin-top: 2rem;
   }
 `;
