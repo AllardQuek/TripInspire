@@ -76,11 +76,10 @@ const Nav = styled.nav`
     position: sticky;
     z-index: 30;
     top: 0;
-    background-color: #e6e6cf;
+    background-color: rgb(230, 230, 207, 0.65);
     border-bottom: 1px solid #c9c9b9;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 1rem;
-    opacity: 0.8;
     margin-bottom: 2rem;
   }
   nav {
@@ -88,7 +87,6 @@ const Nav = styled.nav`
     padding: 16px;
     justify-content: space-between;
     align-items: center;
-    
   }
   .nav__menu-bar {
     display: flex;
