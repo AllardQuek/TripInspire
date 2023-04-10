@@ -57,12 +57,11 @@ export default function Hero() {
         placeholder="blur"
         quality={100}
         fill
-        sizes="100vw"
+        // sizes="100vw"
         style={{
           objectFit: "cover",
           filter: "brightness(60%)",
           zIndex: "-1",
-          backgroundRepeat: "repeat-y",
         }}
       />
       {/* <ScrollToTop /> */}
