@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { CompactTable } from "@table-library/react-table-library/compact";
 import { useTheme } from "@table-library/react-table-library/theme";
 import { getTheme } from "@table-library/react-table-library/baseline";
+import { downloadAsCsv } from "@/utils/download_csv";
 
 export default function FeelingAdventurous() {
   const [destination, setDestination] = useState("");
@@ -38,50 +39,6 @@ export default function FeelingAdventurous() {
     },
   ];
 
-  const escapeCsvCell = (cell) => {
-    if (cell == null) {
-      return "";
-    }
-    const sc = cell.toString().trim();
-    if (sc === "" || sc === '""') {
-      return sc;
-    }
-    if (
-      sc.includes('"') ||
-      sc.includes(",") ||
-      sc.includes("\n") ||
-      sc.includes("\r")
-    ) {
-      return '"' + sc.replace(/"/g, '""') + '"';
-    }
-    return sc;
-  };
-
-  const makeCsvData = (columns, data) => {
-    return data.reduce((csvString, rowItem) => {
-      return (
-        csvString +
-        columns
-          .map(({ accessor }) => escapeCsvCell(accessor(rowItem)))
-          .join(",") +
-        "\r\n"
-      );
-    }, columns.map(({ name }) => escapeCsvCell(name)).join(",") + "\r\n");
-  };
-
-  const downloadAsCsv = (columns, data, filename) => {
-    const csvData = makeCsvData(columns, data);
-    const csvFile = new Blob([csvData], { type: "text/csv" });
-    const downloadLink = document.createElement("a");
-
-    downloadLink.display = "none";
-    downloadLink.download = filename;
-    downloadLink.href = window.URL.createObjectURL(csvFile);
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
-  };
-
   const handleDownloadCsv = () => {
     const columns = [
       { accessor: (item) => item.name, name: "Name" },
@@ -91,7 +48,7 @@ export default function FeelingAdventurous() {
       { accessor: (item) => item.ranking_data.ranking_string, name: "Ranking" },
     ];
 
-    downloadAsCsv(columns, tripDetails, "table");
+    downloadAsCsv(columns, tripDetails, "to_explore");
   };
 
   const handleDestinationChange = (event) => {
@@ -123,7 +80,7 @@ export default function FeelingAdventurous() {
       console.log(category);
 
       // Filter for those above a threshold rating
-      if (rating >= 4.0 && category === "attraction") {
+      if (rating >= 4.0 && category !== "hotel") {
         console.log(
           "Location above threshold rating, adding to final results!"
         );
@@ -192,7 +149,7 @@ export default function FeelingAdventurous() {
               data={{ nodes: tripDetails }}
             />
             <Button
-            className="csv-button"
+              className="csv-button"
               variant="contained"
               size="small"
               color="success"
@@ -222,7 +179,7 @@ const Section = styled.section`
   .destination-input {
     width: 40%;
   }
-  
+
   .csv-button {
     margin-top: 2rem;
   }

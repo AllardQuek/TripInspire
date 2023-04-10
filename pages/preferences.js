@@ -77,11 +77,6 @@ const Questionnaire = ({ username }) => {
     <div>
       <NavBar />
       <StyledForm>
-        {updateSuccess && (
-          <Alert severity="success" onClose={() => setUpdateSuccess(false)}>
-            Successfully updated preferences!
-          </Alert>
-        )}
         <form onSubmit={handleSubmit}>
           <Grid
             container
@@ -375,6 +370,15 @@ const Questionnaire = ({ username }) => {
             </Button>
           </Grid>
         </form>
+        {updateSuccess && (
+          <Alert
+            className="success-alert"
+            severity="success"
+            onClose={() => setUpdateSuccess(false)}
+          >
+            Successfully updated preferences!
+          </Alert>
+        )}
       </StyledForm>
     </div>
   );
@@ -387,6 +391,15 @@ const StyledForm = styled.section`
 
   .question {
     margin-bottom: 1rem;
+  }
+
+  .success-alert {
+    margin: 2rem 0;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 `;
 

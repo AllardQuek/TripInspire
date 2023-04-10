@@ -14,12 +14,12 @@ const navLinks = [
     path: "/plan-trip",
   },
   {
-    name: "Past Trips",
-    path: "/past-trips",
-  },
-  {
     name: "I'm Feeling Adventurous",
     path: "/feeling-adventurous",
+  },
+  {
+    name: "Past Trips",
+    path: "/past-trips",
   },
 ];
 
