@@ -27,7 +27,7 @@ export default function Hero() {
         const first_name = google_username.split(" ")[0];
         setUsername(first_name);
       });
-      console.log(username);
+      console.log("Username: ", username);
     }
   } else {
     console.log("No active session");

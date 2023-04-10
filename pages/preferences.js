@@ -27,7 +27,6 @@ import entertainmentImage from "../assets/entertainmentImage.png";
 const Questionnaire = ({ username }) => {
   const [formValues, setFormValues] = useState();
   const [updateSuccess, setUpdateSuccess] = useState(false);
-  const router = useRouter();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -84,7 +83,7 @@ const Questionnaire = ({ username }) => {
             justify="center"
             direction="column"
           >
-            <h1 className="h1-header">What is your ideal trip, {username}?</h1>
+            <h1 className="h1-header">Tell us your ideal trip.</h1>
             <Grid item className="question">
               <FormControl>
                 <FormLabel>💰 What is your budget?</FormLabel>
