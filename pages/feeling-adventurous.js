@@ -1,7 +1,8 @@
 import { Button, Grid, TextField } from "@mui/material";
 import styled from "styled-components";
 import { useState } from "react";
-import NavBar from "../components/NavBar";
+import NavBar from "@/components/NavBar";
+import CircularProgressWithLabel from "@/components/CircularProgressWithLabel";
 import { useEffect } from "react";
 import { CompactTable } from "@table-library/react-table-library/compact";
 import { useTheme } from "@table-library/react-table-library/theme";
@@ -11,6 +12,8 @@ import { downloadAsCsv } from "@/utils/download_csv";
 export default function FeelingAdventurous() {
   const [destination, setDestination] = useState("");
   const [tripDetails, setTripDetails] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const theme = useTheme(getTheme());
 
   const resize = { resizerHighlight: "#dde2eb", resizerWidth: 25 };
@@ -56,6 +59,7 @@ export default function FeelingAdventurous() {
   };
 
   const getTripAdvisorData = async () => {
+    setLoading(true);
     console.log("Explore button clicked");
     const attractionsResponse = await fetch(
       `/api/getTripAdvisorData?query=${destination}`
@@ -73,11 +77,8 @@ export default function FeelingAdventurous() {
       );
       const locationDetails = await locationDetailsResponse.json();
       const rating = Number(locationDetails.places.rating);
-      const category = locationDetails.places.category.name;
-
+      const category = locationDetails.places.category?.name || "-";
       // console.log("Location details: ", locationDetails);
-      console.log(rating, typeof rating);
-      console.log(category);
 
       // Filter for those above a threshold rating
       if (rating >= 4.0 && category !== "hotel") {
@@ -86,14 +87,19 @@ export default function FeelingAdventurous() {
         );
         finalResults.push(locationDetails.places);
       }
-    }
 
+      const percentageCompleted = ((i + 1) / apiResults.length) * 100;
+      setProgress(percentageCompleted);
+      console.log("Progress: ", progress);
+    }
     setTripDetails(finalResults);
     console.log("Trip details: ", tripDetails);
 
     localStorage.setItem("finalResults", JSON.stringify(finalResults));
     console.log("Local storage: ", localStorage.getItem("finalResults"));
     console.log("Request success!");
+    setLoading(false);
+    setProgress(0);
   };
 
   useEffect(() => {
@@ -131,13 +137,17 @@ export default function FeelingAdventurous() {
             />
           </Grid>
           <Grid item xs={4}>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={getTripAdvisorData}
-            >
-              Explore Now
-            </Button>
+            {!loading ? (
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={getTripAdvisorData}
+              >
+                Explore Now
+              </Button>
+            ) : (
+              <CircularProgressWithLabel value={progress} />
+            )}
           </Grid>
         </Grid>
         {tripDetails && (

@@ -281,7 +281,6 @@ export default function TripDetails() {
                 ))}
               </span>
             </div>
-
             <br />
             <Button
               className="csv-button"
