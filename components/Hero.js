@@ -4,7 +4,11 @@ import React from "react";
 import styled from "styled-components";
 
 import homeImage from "../assets/hero.png";
+import Footer from "./Footer";
 import NavBar from "./NavBar";
+// import ScrollToTop from "./ScrollToTop";
+import Services from "./Services";
+import Testimonials from "./Testimonials";
 import { supabase } from "../utils/supabase";
 import { useState, useEffect } from "react";
 
@@ -45,6 +49,7 @@ export default function Hero() {
 
   return (
     <div>
+      {session && <NavBar />}
       <Image
         className="background"
         alt="Background Image"
@@ -57,11 +62,10 @@ export default function Hero() {
           objectFit: "cover",
           filter: "brightness(60%)",
           zIndex: "-1",
+          backgroundRepeat: "repeat-y",
         }}
       />
-
-      {session ? <NavBar /> : null}
-
+      {/* <ScrollToTop /> */}
       <Section id="hero">
         <div className="content">
           <div className="title">
@@ -83,6 +87,9 @@ export default function Hero() {
           )}
         </div>
       </Section>
+      <Services />
+      {/* <Testimonials /> */}
+      <Footer />
     </div>
   );
 }
@@ -96,6 +103,7 @@ const Section = styled.section`
     justify-content: center;
     align-items: center;
     gap: 1rem;
+
     .title {
       color: white;
       h1 {
