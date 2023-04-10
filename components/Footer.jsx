@@ -42,7 +42,7 @@ const FooterContainer = styled.footer`
   background-color: rgb(230, 230, 207, 0.8);
   border-radius: 0.5rem;
   padding: 1rem;
-  position: absolute;
+  margin-top: 2rem;
   bottom: 2rem;
   left: 1rem;
   right: 1rem;

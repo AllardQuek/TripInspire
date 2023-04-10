@@ -7,8 +7,8 @@ import homeImage from "../assets/hero.png";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
 // import ScrollToTop from "./ScrollToTop";
+// import Testimonials from "./Testimonials";
 import Services from "./Services";
-import Testimonials from "./Testimonials";
 import { supabase } from "../utils/supabase";
 import { useState, useEffect } from "react";
 
