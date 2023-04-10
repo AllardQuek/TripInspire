@@ -17,18 +17,18 @@ export default function Services() {
       icon: service2,
       title: "Personalised Recommendations",
       subTitle:
-        "Share your travel preferences and get personalised recommendations.",
+        "Share your travel preferences and get personalised recommendations",
     },
     {
       icon: service3,
       title: "Explore New Journeys",
       subTitle:
-        "Discover unique destinations and activities loved by other travellers.",
+        "Discover unique destinations and activities loved by other travellers",
     },
     {
       icon: service4,
       title: "Feedback and Connect",
-      subTitle: "Share reviews and connect with other travellers.",
+      subTitle: "Share reviews and connect with other travellers",
     },
   ];
   return (
