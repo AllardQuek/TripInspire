@@ -23,10 +23,10 @@ export default function TripDetails() {
   const [tripDetails, setTripDetails] = useState("");
   const [foodResults, setFoodResults] = useState("");
   const [accommsResults, setAccommsResults] = useState("");
-  const [uuid, setUuid] = useState("");
+  const [numPerDay, setNumPerDay] = useState(0);
+  // const [uuid, setUuid] = useState("");
   // const [budget, setBudget] = useState(0);
   // const [pace, setPace] = useState(0);
-  const [numPerDay, setNumPerDay] = useState(0);
 
   const numRange = Array.from({ length: 10 }, (_, i) => i + 1);
   const theme = useTheme(getTheme());
@@ -139,7 +139,7 @@ export default function TripDetails() {
       return;
     }
 
-    setUuid(user.id);
+    // setUuid(user.id);
     return user.id;
   };
 
