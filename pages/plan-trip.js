@@ -235,7 +235,7 @@ export default function TripDetails() {
     });
   };
 
-  const handleDownloadCsv = () => {
+  const handleDownloadCsv = (places, placeType) => {
     const columns = [
       { accessor: (item) => item.name, name: "Name" },
       { accessor: (item) => item.address, name: "Address" },
@@ -244,7 +244,7 @@ export default function TripDetails() {
       { accessor: (item) => item.rating, name: "Rating" },
     ];
 
-    downloadAsCsv(columns, tripDetails, "my_itinerary");
+    downloadAsCsv(columns, places, `my_${placeType}`);
   };
 
   return (
@@ -349,7 +349,7 @@ export default function TripDetails() {
               variant="contained"
               size="small"
               color="success"
-              onClick={handleDownloadCsv}
+              onClick={() => handleDownloadCsv(tripDetails, "attractions")}
             >
               Download CSV
             </Button>
@@ -393,7 +393,7 @@ export default function TripDetails() {
               variant="contained"
               size="small"
               color="success"
-              onClick={handleDownloadCsv}
+              onClick={() => handleDownloadCsv(foodResults, "food_places")}
             >
               Download CSV
             </Button>
@@ -413,7 +413,9 @@ export default function TripDetails() {
               variant="contained"
               size="small"
               color="success"
-              onClick={handleDownloadCsv}
+              onClick={() =>
+                handleDownloadCsv(accommsResults, "accommodations")
+              }
             >
               Download CSV
             </Button>

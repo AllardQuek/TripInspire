@@ -41,15 +41,3 @@ export const downloadAsCsv = (columns, data, filename) => {
   downloadLink.click();
   document.body.removeChild(downloadLink);
 };
-
-export const handleDownloadCsv = () => {
-  const columns = [
-    { accessor: (item) => item.name, name: "Name" },
-    { accessor: (item) => item.address, name: "Address" },
-    { accessor: (item) => item.category, name: "Category" },
-    { accessor: (item) => item.rating, name: "Rating" },
-    { accessor: (item) => item.ranking_data.ranking_string, name: "Ranking" },
-  ];
-
-  downloadAsCsv(columns, tripDetails, "table");
-};
