@@ -24,8 +24,8 @@ export default function TripDetails() {
   const [foodResults, setFoodResults] = useState("");
   const [accommsResults, setAccommsResults] = useState("");
   const [uuid, setUuid] = useState("");
-  const [budget, setBudget] = useState(0);
-  const [pace, setPace] = useState(0);
+  // const [budget, setBudget] = useState(0);
+  // const [pace, setPace] = useState(0);
   const [numPerDay, setNumPerDay] = useState(0);
 
   const numRange = Array.from({ length: 10 }, (_, i) => i + 1);
@@ -129,26 +129,26 @@ export default function TripDetails() {
     setNumNights(event.target.value);
   };
 
-  const getUserId = () => {
-    const user = supabase.auth.getUser();
+  const getUserId = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       console.log("No active user!");
       return;
     }
 
-    user.then((value) => {
-      setUuid(value.data.user.id);
-    });
+    setUuid(user.id);
+    return user.id;
   };
 
-  const queryUserDetails = async (field) => {
-    // Query user's preferred budget from supabase
-    console.log("UUID: ", uuid);
+  const queryUserDetails = async (field, idValue) => {
+    console.log("idValue: ", idValue);
     const { data, error } = await supabase
       .from("profiles")
       .select(field)
-      .eq("id", uuid);
+      .eq("id", idValue);
 
     if (!data || data.length === 0) {
       console.log("No data found!");
@@ -156,9 +156,11 @@ export default function TripDetails() {
     }
 
     if (field === "budget_level") {
-      setBudget(data[0].budget_level);
+      // setBudget(data[0].budget_level);
+      return data[0].budget_level;
     } else if (field === "trip_pace") {
-      setPace(data[0].trip_pace);
+      // setPace(data[0].trip_pace);
+      return data[0].trip_pace;
     }
   };
 
@@ -172,57 +174,65 @@ export default function TripDetails() {
     cityFoodPlaces.sort((a, b) => a.budget - b.budget);
     cityAccommodations.sort((a, b) => a.budget - b.budget);
 
-    getUserId();
-    queryUserDetails("budget_level");
-    queryUserDetails("trip_pace");
-    console.log("Budget level: ", budget);
-    console.log("Trip pace : ", pace);
+    const userId = getUserId();
+    // console.log("User ID: ", userId);
 
-    // Filter for places within the user's budget
-    const filteredAttractions = cityAttractions.filter(
-      (attraction) => attraction.budget <= budget
-    );
+    userId.then((idValue) => {
+      console.log("HERE idValue: ", idValue);
+      const budget_res = queryUserDetails("budget_level", idValue);
+      const pace_res = queryUserDetails("trip_pace", idValue);
+      budget_res.then((budget) => {
+        pace_res.then((pace) => {
+          console.log("Budget level: ", budget);
+          console.log("Trip pace : ", pace);
 
-    const filteredFood = cityFoodPlaces.filter(
-      (foodPlace) => foodPlace.budget <= budget
-    );
+          // Filter for places within the user's budget
+          const filteredAttractions = cityAttractions.filter(
+            (attraction) => attraction.budget <= budget
+          );
 
-    const filteredAccommodations = cityAccommodations.filter(
-      (accommodation) => accommodation.budget <= budget
-    );
+          const filteredFood = cityFoodPlaces.filter(
+            (foodPlace) => foodPlace.budget <= budget
+          );
 
-    const numAttractionsPerDay =
-      pace === 1
-        ? getRandomIntInclusive(1, 2)
-        : pace === 2
-        ? getRandomIntInclusive(3, 4)
-        : pace === 3
-        ? getRandomIntInclusive(5, 6)
-        : 0;
-    const totalNumAttractions = numAttractionsPerDay * numDays;
+          const filteredAccommodations = cityAccommodations.filter(
+            (accommodation) => accommodation.budget <= budget
+          );
 
-    // Filter to get totalNumAttractions from filtered attractions
-    filteredAttractions.length = totalNumAttractions;
+          const numAttractionsPerDay =
+            pace === 1
+              ? getRandomIntInclusive(1, 2)
+              : pace === 2
+              ? getRandomIntInclusive(3, 4)
+              : pace === 3
+              ? getRandomIntInclusive(5, 6)
+              : 0;
+          const totalNumAttractions = numAttractionsPerDay * numDays;
 
-    console.log(
-      "FILTERED ATTRACTIONS: ",
-      filteredAttractions.length,
-      typeof filteredAttractions
-    );
+          // Only take `totalNumAttractions` from filtered attractions
+          const numFoodPerDay = 3;
+          filteredFood.length = numDays * numFoodPerDay;
+          filteredAttractions.length = totalNumAttractions;
 
-    setNumPerDay(numAttractionsPerDay);
-    const finalAttractions = filteredAttractions;
-    setTripDetails(finalAttractions);
-    setFoodResults(filteredFood);
-    setAccommsResults(filteredAccommodations);
+          setNumPerDay(numAttractionsPerDay);
+          const finalAttractions = filteredAttractions;
+          setTripDetails(finalAttractions);
+          setFoodResults(filteredFood);
+          setAccommsResults(filteredAccommodations);
 
-    if (finalAttractions.length > 0) {
-      localStorage.setItem("recommendations", JSON.stringify(finalAttractions));
-    } else {
-      console.log("No recommendations saved!");
-    }
+          if (finalAttractions.length > 0) {
+            localStorage.setItem(
+              "recommendations",
+              JSON.stringify(finalAttractions)
+            );
+          } else {
+            console.log("No recommendations saved!");
+          }
 
-    console.log("Request success!");
+          console.log("Request success!");
+        });
+      });
+    });
   };
 
   const handleDownloadCsv = () => {
