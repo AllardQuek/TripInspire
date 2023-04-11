@@ -6,7 +6,9 @@
       "address": "78 Smith Street, Singapore 058972",
       "budget": 2,
       "pace": 3,
-      "accessibility": 5
+      "accessibility": 5,
+      "category": "Hawker",
+      "rating": 4.5
     },
     {
       "id": 2,
@@ -14,7 +16,9 @@
       "address": "1 Kadayanallur Street, Singapore 069184",
       "budget": 2,
       "pace": 3,
-      "accessibility": 4
+      "accessibility": 4,
+      "category": "Hawker",
+      "rating": 4.5
     },
     {
       "id": 3,
@@ -22,7 +26,9 @@
       "address": "335 Smith Street, Singapore 050335",
       "budget": 2,
       "pace": 3,
-      "accessibility": 4
+      "accessibility": 4,
+      "category": "Hawker",
+      "rating": 4.3
     },
     {
       "id": 4,
@@ -30,7 +36,9 @@
       "address": "30 Seng Poh Road, Singapore 168898",
       "budget": 2,
       "pace": 3,
-      "accessibility": 4
+      "accessibility": 4,
+      "category": "Market",
+      "rating": 4.5
     },
     {
       "id": 5,
@@ -38,7 +46,59 @@
       "address": "18 Raffles Quay, Singapore 048582",
       "budget": 3,
       "pace": 3,
-      "accessibility": 5
+      "accessibility": 5,
+      "category": "Hawker",
+      "rating": 4.5
+    },
+    {
+      "id": 6,
+      "name": "Lagnaa Barefoot Dining",
+      "address": "6 Upper Dickson Road, Singapore 207466",
+      "budget": 3,
+      "pace": 2,
+      "accessibility": 4,
+      "category": "Restaurant",
+      "rating": 4.6
+    },
+    {
+      "id": 7,
+      "name": "JUMBO Seafood",
+      "address": "20 Upper Circular Road, Singapore 058416",
+      "budget": 4,
+      "pace": 3,
+      "accessibility": 4,
+      "category": "Restaurant",
+      "rating": 4.6
+    },
+    {
+      "id": 8,
+      "name": "Song Fa Bak Kut Teh",
+      "address": "11 New Bridge Road, #01-01, Singapore 059383",
+      "budget": 2,
+      "pace": 3,
+      "accessibility": 4,
+      "category": "Restaurant",
+      "rating": 4.7
+    },
+    {
+      "id": 9,
+      "name": "Ichiban Sushi",
+      "address": "930 Yishun Avenue 2, #02-06/07 Northpoint City South Wing, Singapore 769098",
+      "budget": 3,
+      "pace": 2,
+      "accessibility": 4,
+      "category": "Restaurant",
+      "rating": 4.4
+    },
+    {
+      "id": 10,
+      "name": "Swee Choon Tim Sum Restaurant",
+      "address": "191 Jalan Besar, Singapore 208882",
+      "budget": 2,
+      "pace": 3,
+      "accessibility": 4,
+      "category": "Restaurant",
+      "rating": 4.5
     }
   ],
   "Munich": [

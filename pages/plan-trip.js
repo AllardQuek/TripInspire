@@ -12,17 +12,22 @@ import { getTheme } from "@table-library/react-table-library/baseline";
 import { usePagination } from "@table-library/react-table-library/pagination";
 import { downloadAsCsv } from "@/utils/download_csv";
 import { supabase } from "../utils/supabase";
-
-// Write a fetcher function to wrap the native fetch function and return the result of a call to url in json format
-const fetcher = (url) => fetch(url).then((res) => res.json());
+import attractions from "../data/attractions.json";
+import food_places from "../data/food_places.json";
+import accommodations from "../data/accommodations.json";
 
 export default function TripDetails() {
   const [destination, setDestination] = useState("");
-  const [numDays, setNumDays] = useState(0);
+  const [numDays, setNumDays] = useState("");
   const [numNights, setNumNights] = useState("");
   const [tripDetails, setTripDetails] = useState("");
+  const [foodResults, setFoodResults] = useState("");
+  const [accommsResults, setAccommsResults] = useState("");
   const [uuid, setUuid] = useState("");
   const [budget, setBudget] = useState(0);
+  const [pace, setPace] = useState(0);
+  const [numPerDay, setNumPerDay] = useState(0);
+
   const numRange = Array.from({ length: 10 }, (_, i) => i + 1);
   const theme = useTheme(getTheme());
   const budgetMapping = {
@@ -45,6 +50,11 @@ export default function TripDetails() {
       resize: true,
     },
     {
+      label: "Accessibility",
+      renderCell: (item) => Number(item.accessibility),
+      resize: true,
+    },
+    {
       label: "Category",
       renderCell: (item) => item.category,
       resize: true,
@@ -56,23 +66,47 @@ export default function TripDetails() {
     },
   ];
 
-  useEffect(() => {
-    const pastDetails = window.localStorage.getItem("recommendations");
+  function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1) + min); // The maximum is inclusive and the minimum is inclusive
+  }
 
-    if (typeof pastDetails !== "undefined") {
-      console.log("Past details: ", pastDetails);
-      try {
-        setTripDetails(JSON.parse(pastDetails));
-      } catch (err) {
-        console.log("Error: ", err.message);
-      }
-    }
+  useEffect(() => {
+    // Local storage returns a string
+    // const pastDetails = window.localStorage.getItem("recommendations");
+    // const savedNumDays = window.localStorage.getItem("numDays");
+    // setNumDays(Number(savedNumDays));
+    // console.log("past dets", pastDetails, typeof pastDetails);
+    // if (
+    //   pastDetails === "undefined" ||
+    //   pastDetails.length === 0 ||
+    //   pastDetails === "[]"
+    // ) {
+    //   console.log("No past details found.");
+    //   return;
+    // }
+    // console.log("Past details: ", pastDetails);
+    // try {
+    //   setTripDetails(JSON.parse(pastDetails));
+    // } catch (err) {
+    //   console.log("Error: ", err.message);
+    // }
   }, []);
 
   const pagination = usePagination(tripDetails, {
     state: {
       page: 0,
-      size: Math.ceil(tripDetails.length / numDays),
+      size: numPerDay,
+      // size: Math.ceil(tripDetails.length / numDays),
+    },
+    onChange: onPaginationChange,
+  });
+
+  const foodPagination = usePagination(foodResults, {
+    state: {
+      page: 0,
+      size: 3,
     },
     onChange: onPaginationChange,
   });
@@ -81,35 +115,21 @@ export default function TripDetails() {
     console.log(action, state);
   }
 
-  // Fetch attractions data
-  const { data, error } = useSWR("/api/staticdata", fetcher);
-  let attractions = {};
-
-  // Convert data to  JSON format if it is not already
-  try {
-    attractions = JSON.parse(data);
-  } catch (err) {
-    console.log("Error: ", err.message);
-  }
-
-  // Handle the error state
-  if (error) return <div>Failed to load</div>;
-  // Handle the loading state
-  if (!data) return <div>Loading...</div>;
-
   const handleDestinationChange = (event) => {
     setDestination(event.target.value);
   };
 
   const handleDaysChange = (event) => {
-    setNumDays(event.target.value);
+    const newNumDays = event.target.value;
+    localStorage.setItem("numDays", newNumDays);
+    setNumDays(newNumDays);
   };
 
   const handleNightsChange = (event) => {
     setNumNights(event.target.value);
   };
 
-  const queryUserId = async () => {
+  const getUserId = () => {
     const user = supabase.auth.getUser();
 
     if (!user) {
@@ -117,59 +137,91 @@ export default function TripDetails() {
       return;
     }
 
-    let uuid = "";
-
     user.then((value) => {
-      uuid = value.data.user.id;
-      setUuid(uuid);
+      setUuid(value.data.user.id);
     });
   };
 
-  const queryUserBudget = async () => {
+  const queryUserDetails = async (field) => {
     // Query user's preferred budget from supabase
     console.log("UUID: ", uuid);
     const { data, error } = await supabase
       .from("profiles")
-      .select("budget_level")
+      .select(field)
       .eq("id", uuid);
 
-    return data;
+    if (!data || data.length === 0) {
+      console.log("No data found!");
+      return;
+    }
+
+    if (field === "budget_level") {
+      setBudget(data[0].budget_level);
+    } else if (field === "trip_pace") {
+      setPace(data[0].trip_pace);
+    }
   };
 
   const getRecommendations = () => {
-    console.log(attractions);
     const cityAttractions = attractions[destination];
+    const cityFoodPlaces = food_places[destination];
+    const cityAccommodations = accommodations[destination];
 
-    // Sort attractions by budget
+    // Sort locations by budget
     cityAttractions.sort((a, b) => a.budget - b.budget);
+    cityFoodPlaces.sort((a, b) => a.budget - b.budget);
+    cityAccommodations.sort((a, b) => a.budget - b.budget);
 
-    queryUserId();
-    const budget_res = queryUserBudget();
-    console.log("Budget Data: ", budget_res);
-
-    budget_res.then((value) => {
-      // Check length of value
-      if (value.length === 0) {
-        console.log("No budget data found!");
-        return;
-      }
-      const budget_level = value[0].budget_level;
-      setBudget(budget_level);
-    });
+    getUserId();
+    queryUserDetails("budget_level");
+    queryUserDetails("trip_pace");
     console.log("Budget level: ", budget);
+    console.log("Trip pace : ", pace);
 
-    // Filter attraction results to those within the user's budget
+    // Filter for places within the user's budget
     const filteredAttractions = cityAttractions.filter(
       (attraction) => attraction.budget <= budget
     );
 
-    setTripDetails(filteredAttractions);
-
-    localStorage.setItem(
-      "recommendations",
-      JSON.stringify(filteredAttractions)
+    const filteredFood = cityFoodPlaces.filter(
+      (foodPlace) => foodPlace.budget <= budget
     );
-    console.log("Local storage: ", localStorage.getItem("recommendations"));
+
+    const filteredAccommodations = cityAccommodations.filter(
+      (accommodation) => accommodation.budget <= budget
+    );
+
+    const numAttractionsPerDay =
+      pace === 1
+        ? getRandomIntInclusive(1, 2)
+        : pace === 2
+        ? getRandomIntInclusive(3, 4)
+        : pace === 3
+        ? getRandomIntInclusive(5, 6)
+        : 0;
+    const totalNumAttractions = numAttractionsPerDay * numDays;
+
+    // Filter to get totalNumAttractions from filtered attractions
+    filteredAttractions.length = totalNumAttractions;
+
+    console.log(
+      "FILTERED ATTRACTIONS: ",
+      filteredAttractions.length,
+      typeof filteredAttractions
+    );
+
+    setNumPerDay(numAttractionsPerDay);
+    const finalAttractions = filteredAttractions;
+    setTripDetails(finalAttractions);
+    setFoodResults(filteredFood);
+    setAccommsResults(filteredAccommodations);
+
+    if (finalAttractions.length > 0) {
+      localStorage.setItem("recommendations", JSON.stringify(finalAttractions));
+    } else {
+      console.log("No recommendations saved!");
+    }
+
     console.log("Request success!");
   };
 
@@ -293,6 +345,70 @@ export default function TripDetails() {
             </Button>
           </div>
         )}
+        {foodResults && (
+          <div className="recommendations">
+            <h1 className="recommendations-header">Where To Eat</h1>
+            <CompactTable
+              theme={theme}
+              columns={COLUMNS}
+              data={{ nodes: foodResults }}
+              pagination={foodPagination}
+            />
+            <br />
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <span>
+                No. of days: {foodPagination.state.getTotalPages(foodResults)}
+              </span>
+
+              <span className="page-buttons">
+                Day:
+                {pagination.state.getPages(foodResults).map((_, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    style={{
+                      fontWeight:
+                        foodPagination.state.page === index ? "bold" : "normal",
+                    }}
+                    onClick={() => foodPagination.fns.onSetPage(index)}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+              </span>
+            </div>
+            <br />
+            <Button
+              className="csv-button"
+              variant="contained"
+              size="small"
+              color="success"
+              onClick={handleDownloadCsv}
+            >
+              Download CSV
+            </Button>
+          </div>
+        )}
+        {accommsResults && (
+          <div className="recommendations">
+            <h1 className="recommendations-header">Where To Stay</h1>
+            <CompactTable
+              theme={theme}
+              columns={COLUMNS}
+              data={{ nodes: accommsResults }}
+            />
+            <br />
+            <Button
+              className="csv-button"
+              variant="contained"
+              size="small"
+              color="success"
+              onClick={handleDownloadCsv}
+            >
+              Download CSV
+            </Button>
+          </div>
+        )}
       </Section>
     </div>
   );
@@ -300,13 +416,14 @@ export default function TripDetails() {
 
 const Section = styled.section`
   .trip-details {
-    padding: 2rem 0;
+    padding: 3rem 2rem 0 0;
   }
 
   .recommendations {
     justify-content: center;
     align-items: center;
     text-align: center;
+    margin: 2rem 0;
   }
 
   .recommendations-header {
@@ -318,7 +435,7 @@ const Section = styled.section`
   }
 
   .csv-button {
-    margin-top: 2rem;
+    margin-top: 0.5rem;
   }
 
   .page-buttons {
